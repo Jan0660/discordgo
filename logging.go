@@ -83,6 +83,7 @@ func (s *Session) log(msgL int, format string, a ...interface{}) {
 // message log level
 func (v *VoiceConnection) log(msgL int, format string, a ...interface{}) {
 
+	log.Printf(format, a)
 	if msgL > v.LogLevel {
 		return
 	}

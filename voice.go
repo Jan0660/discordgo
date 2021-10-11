@@ -272,6 +272,13 @@ func (v *VoiceConnection) waitUntilConnected() error {
 	}
 }
 
+func (v *VoiceConnection) Open(sessionId, endpoint, token string) error {
+	v.sessionID = sessionId
+	v.endpoint = endpoint
+	v.token = token
+	return v.open()
+}
+
 // Open opens a voice connection.  This should be called
 // after VoiceChannelJoin is used and the data VOICE websocket events
 // are captured.
