@@ -365,9 +365,9 @@ func (v *VoiceConnection) wsListen(wsConn *websocket.Conn, close <-chan struct{}
 				v.wsConn = nil
 				v.Unlock()
 
-				v.session.Lock()
-				delete(v.session.VoiceConnections, v.GuildID)
-				v.session.Unlock()
+				//v.session.Lock()
+				//delete(v.session.VoiceConnections, v.GuildID)
+				//v.session.Unlock()
 
 				v.Close()
 
@@ -891,31 +891,31 @@ func (v *VoiceConnection) reconnect() {
 			wait = 600
 		}
 
-		if v.session.DataReady == false || v.session.wsConn == nil {
-			v.log(LogInformational, "cannot reconnect to channel %s with unready session", v.ChannelID)
-			continue
-		}
+		//if v.session.DataReady == false || v.session.wsConn == nil {
+		//	v.log(LogInformational, "cannot reconnect to channel %s with unready session", v.ChannelID)
+		//	continue
+		//}
 
-		v.log(LogInformational, "trying to reconnect to channel %s", v.ChannelID)
+		//v.log(LogInformational, "trying to reconnect to channel %s", v.ChannelID)
 
-		_, err := v.session.ChannelVoiceJoin(v.GuildID, v.ChannelID, v.mute, v.deaf)
-		if err == nil {
-			v.log(LogInformational, "successfully reconnected to channel %s", v.ChannelID)
-			return
-		}
+		//_, err := v.session.ChannelVoiceJoin(v.GuildID, v.ChannelID, v.mute, v.deaf)
+		//if err == nil {
+		//	v.log(LogInformational, "successfully reconnected to channel %s", v.ChannelID)
+		//	return
+		//}
 
-		v.log(LogInformational, "error reconnecting to channel %s, %s", v.ChannelID, err)
+		//v.log(LogInformational, "error reconnecting to channel %s, %s", v.ChannelID, err)
 
 		// if the reconnect above didn't work lets just send a disconnect
 		// packet to reset things.
 		// Send a OP4 with a nil channel to disconnect
-		data := voiceChannelJoinOp{4, voiceChannelJoinData{&v.GuildID, nil, true, true}}
-		v.session.wsMutex.Lock()
-		err = v.session.wsConn.WriteJSON(data)
-		v.session.wsMutex.Unlock()
-		if err != nil {
-			v.log(LogError, "error sending disconnect packet, %s", err)
-		}
+		//data := voiceChannelJoinOp{4, voiceChannelJoinData{&v.GuildID, nil, true, true}}
+		//v.session.wsMutex.Lock()
+		//err = v.session.wsConn.WriteJSON(data)
+		//v.session.wsMutex.Unlock()
+		//if err != nil {
+		//	v.log(LogError, "error sending disconnect packet, %s", err)
+		//}
 
 	}
 }
